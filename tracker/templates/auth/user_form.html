@@ -1,0 +1,68 @@
+{% extends "../main.html" %}
+{% block title %}
+{% if object %}
+Update User
+{% else %}
+New Account
+{% endif %}
+{% endblock %}
+{% block content %}
+<h1> {% if object %}
+Update:
+{% else %}
+Register:
+{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <label> <strong> *Username: </strong> </label>
+    <input class="form-control" name="{{form.username.html_name}}" value="{{form.username.value | default:''}}">
+    {% for error in form.username.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+
+    {% if not object %}
+    <label> <strong> *Password: </strong> </label>
+    <input type="password" class="form-control" name="{{form.password1.html_name}}">
+    {% for error in form.password1.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+
+
+    <label> <strong> *Confirm Password: </strong></label>
+    <input type="password" class="form-control" name="{{form.password2.html_name}}">
+    {% for error in form.password2.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+    {% endif %}
+
+    <label> First Name: </label>
+    <input type="text" class="form-control" name="{{form.first_name.html_name}}" value="{{form.first_name.value | default:''}}">
+
+    {% for error in form.first_name.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+
+    <label> Last Name: </label>
+    <input class="form-control" name="{{form.last_name.html_name}}" value="{{form.last_name.value | default:''}}">
+
+    {% for error in form.last_name.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+    <label> Email: </label>
+    <input type="email" class="form-control" name="{{form.email.html_name}}" value="{{form.email.value | default:''}}">
+    {% for error in form.email.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+    <div class="text-center">
+        <button class="btn btn-primary"> {% if object %} Update {% else %} Signup {% endif %} </button>
+    </div>
+</form>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "../main.html" %}
+{% block title %}
+My Entries
+{% endblock %}
+{% block content %}
+{% load mathfilters %}
+<h1 class="text-primary"> Your Entries: </h1>
+<form class="form-inline" method="get">
+
+    <div class="row align-items-center">
+<div class="col-auto">
+        Start Date: <input type="date" class="form-control" name="start_date">
+</div>
+
+            <div class="col-auto">
+            End Date: <input type="date" class="form-control" name="end_date">
+            </div>
+        <div class="col-auto">
+        <button type="submit" class="form-control btn btn-primary"> Filter </button>
+    </div>
+       <div class="col-auto">
+        <a href="/entries/?week=yes"> Weekly Report </a>
+    </div>
+    </div>
+</form>
+
+
+<hr>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Distance(Meter)</th>
+        <th>Time(Seconds)</th>
+        <th>Speed</th>
+        {% if user.is_staff %}
+        <th>User</th>
+        {% endif %}
+        <th>Action</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for entry in object_list %}
+    <tr>
+        <td>{{ entry.id }}</td>
+        <td>{{ entry.date }}</td>
+        <td>{{ entry.distance }}</td>
+        <td>{{ entry.time }}</td>
+        <td class="text-success">{{ entry.distance|div:entry.time }} m/s</td>
+        {% if user.is_staff %}
+        <td>{{ entry.user }}</td>
+        {% endif %}
+        <td>
+            <a class="btn btn-success" href="{% url 'update-entry' entry.id %}"> <i class="fa fa-pencil"></i> </a>
+            <a class="btn btn-danger" href="{% url 'delete-entry' entry.id %}"> <i class="fa fa-trash"></i> </i> </a>
+        </td>
+
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br>
+{% endblock %}

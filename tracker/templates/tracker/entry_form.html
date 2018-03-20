@@ -1,0 +1,44 @@
+{% extends "../main.html" %}
+{% block title %}
+{% if object %}
+Update Entry
+{% else %}
+New Entry
+{% endif %}
+{% endblock %}
+{% block content %}
+{% if object %}
+<h1> Update Entry:</h1>
+{% else %}
+<h1> Add Entry:</h1>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <label> <strong> Date: </strong> </label>
+    <input type= "date" class="form-control" name="{{form.date.html_name}}" value="{{form.date.value|date:"Y-m-d"}}">
+    {% for error in form.date.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+
+    <label> <strong> Distance(Meters): </strong> </label>
+    <input type="number" step="0.1" class="form-control" name="{{form.distance.html_name}}" value="{{form.distance.value}}" >
+    {% for error in form.distance.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+
+     <label> <strong> Time(Seconds): </strong> </label>
+    <input type="number" class="form-control" name="{{form.time.html_name}}" value="{{form.time.value}}" >
+    {% for error in form.time.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary"> {% if object %} Update {% else %} Create {% endif %} </button>
+    </div>
+</form>
+
+{% endblock %}

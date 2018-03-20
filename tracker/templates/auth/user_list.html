@@ -1,0 +1,40 @@
+{% extends "../main.html" %}
+{% block title %}
+Users
+{% endblock %}
+{% block content %}
+{% load mathfilters %}
+<h1 class="text-primary"> Your Entries: </h1>
+<hr>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Full Name</th>
+        <th>Email</th>
+        <th>Action</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for entry in object_list %}
+    <tr>
+        <td>{{ entry.id }}</td>
+        <td>{{ entry.username }}</td>
+        <td>{{ entry.first_name }} {{ entry.last_name }}</td>
+        <td>{{ entry.email }}</td>
+
+        <td>
+            <a class="btn btn-success" href="{% url 'update-user' entry.id %}"> <i class="fa fa-pencil"></i> </a>
+            <a class="btn btn-danger" href="{% url 'delete-user' entry.id %}"> <i class="fa fa-trash"></i> </i> </a>
+        </td>
+
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

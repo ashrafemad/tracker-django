@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title%} Welcome {% endblock %}</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="icon" href="https://png.icons8.com/ios/50/000000/exercise-filled.png" type="image/png">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'index' %}">Tracker</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+          {% if user.is_authenticated %}
+         <li class="nav-item">
+        <a class="nav-link" href="{% url 'entries' %}">My Entries</a>
+      </li>
+          <li class="nav-item">
+        <a class="nav-link" href="{% url 'add' %}">Add New Entry</a>
+      </li>
+
+        {% endif %}
+
+        {% if user.is_staff %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'users-list' %}">Users</a>
+      </li>
+        {% endif %}
+    </ul>
+
+    <span class="navbar-text">
+  <ul class="navbar-nav mr-auto">
+        <li class="navbar-nav mr-auto">
+
+
+        {% if user.is_authenticated %}
+            <li class="nav-item"> <a class="nav-link" href="{% url 'logout' %}">{{user.username}} - Logout</a> </li>
+        {% else %}
+            <li class="nav-item"> <a class="nav-link" href="{% url 'login' %}">Login</a> </li>
+      <li class="nav-item"> <a class="nav-link" href="{% url 'signup' %}">Signup</a> </li>
+        {% endif %}
+    </ul>
+    </span>
+  </div>
+</nav>
+
+
+
+<div class="container-fluid">
+
+    {% block content %}
+    <div style="min-height: 90%; min-height: 90vh; display: flex; align-items: center;">
+        <h1 class="col-md-8 offset-md-2 text-center" style="font-size:4em; font-family:tahoma">
+            Welcome to Tracker App
+        </h1>
+    </div>
+    {% endblock %}
+</div>
+
+</body>
+
+</html>
