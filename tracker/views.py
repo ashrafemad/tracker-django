@@ -92,7 +92,7 @@ class DeleteUser(AdminOnly, DeleteView):
 
 class UpdateUser(AdminOnly, UpdateView):
     model = User
-    fields = ('username', 'first_name', 'last_name', 'email')
+    fields = ('username', 'first_name', 'last_name', 'email', 'is_staff')
     success_url = '/users/'
 
 

@@ -4,7 +4,7 @@ Users
 {% endblock %}
 {% block content %}
 {% load mathfilters %}
-<h1 class="text-primary"> Your Entries: </h1>
+<h1 class="text-primary"> All Users: </h1>
 <hr>
 <table class="table">
     <thead>
@@ -13,6 +13,7 @@ Users
         <th>Username</th>
         <th>Full Name</th>
         <th>Email</th>
+        <th>Status</th>
         <th>Action</th>
 
 
@@ -23,9 +24,15 @@ Users
     <tr>
         <td>{{ entry.id }}</td>
         <td>{{ entry.username }}</td>
-        <td>{{ entry.first_name }} {{ entry.last_name }}</td>
+        <td>{{ entry.first_name }} {{ user.last_name }}</td>
         <td>{{ entry.email }}</td>
-
+        <td>
+        {% if entry.is_staff %}
+        Admin
+        {% else %}
+            User
+        </td>
+        {% endif %}
         <td>
             <a class="btn btn-success" href="{% url 'update-user' entry.id %}"> <i class="fa fa-pencil"></i> </a>
             <a class="btn btn-danger" href="{% url 'delete-user' entry.id %}"> <i class="fa fa-trash"></i> </i> </a>

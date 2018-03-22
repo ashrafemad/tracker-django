@@ -60,6 +60,15 @@ Register:
     <p class="text-danger"> {{error}} </p>
     {% endfor %}
     <br>
+    {% if object %}
+    <label> Staff Status: </label>
+    <input type="checkbox"  name="{{form.is_staff.html_name}}" {% if form.is_staff.value %} checked {% endif %}>
+    {% for error in form.is_staff.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+    {% endif %}
+
     <div class="text-center">
         <button class="btn btn-primary"> {% if object %} Update {% else %} Signup {% endif %} </button>
     </div>
