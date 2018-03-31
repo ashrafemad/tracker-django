@@ -1,8 +1,9 @@
+import json
 from datetime import date, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView
 from django.urls import reverse
@@ -47,6 +48,14 @@ class Signup(CreateView):
     success_url = '/login/'
 
 
+def validate_username(request):
+    username = request.GET.get('username', None)
+    data = {
+        'is_taken': User.objects.filter(username__iexact=username).exists()
+    }
+    return JsonResponse(data)
+
+
 class Login(LoginView):
     model = User
     template_name = 'auth/login.html'
@@ -58,7 +67,7 @@ class MyEntries(AuthorizedUserOrAdmin, ListView):
 
 class CreateEntry(AuthorizedUserOrAdmin, CreateView):
     model = Entry
-    fields = ('user', 'date', 'time', 'distance')
+    fields = ('user', 'date', 'time', 'distance', 'image')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -69,6 +78,13 @@ class CreateEntry(AuthorizedUserOrAdmin, CreateView):
             kwargs['data'] = data
         return kwargs
 
+    def render_to_response(self, context, **response_kwargs):
+        """ Allow AJAX requests to be handled more gracefully """
+        if self.request.is_ajax():
+            return HttpResponse(json.dumps({'success': 'ok'}), content_type="application/json")
+        else:
+            return super(CreateView, self).render_to_response(context, **response_kwargs)
+
 
 class DeleteEntry(AuthorizedUserOrAdmin, DeleteView):
     model = Entry
@@ -77,8 +93,14 @@ class DeleteEntry(AuthorizedUserOrAdmin, DeleteView):
 
 class UpdateEntry(AuthorizedUserOrAdmin, UpdateView):
     model = Entry
-    fields = ('date', 'distance', 'time')
-    success_url = '/entries/'
+    fields = ('date', 'distance', 'time', 'image')
+
+    def render_to_response(self, context, **response_kwargs):
+        """ Allow AJAX requests to be handled more gracefully """
+        if self.request.is_ajax():
+            return HttpResponse(json.dumps({'success': 'ok'}), content_type="application/json")
+        else:
+            return super(UpdateView, self).render_to_response(context, **response_kwargs)
 
 
 class ListUsers(AdminOnly, ListView):

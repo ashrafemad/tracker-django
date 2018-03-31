@@ -12,11 +12,12 @@ Update:
 {% else %}
 Register:
 {% endif %}</h1>
-<form method="post">
+<form id="userform" enctype="multipart/form-data" method="post">
     {% csrf_token %}
     {{ form.non_field_errors }}
     <label> <strong> *Username: </strong> </label>
-    <input class="form-control" name="{{form.username.html_name}}" value="{{form.username.value | default:''}}">
+    <input id="userid" class="form-control" name="{{form.username.html_name}}" value="{{form.username.value | default:''}}">
+    <span class="text-danger" id="already" style="display: none"> Already Exist </span>
     {% for error in form.username.errors %}
     <p class="text-danger"> {{error}} </p>
     {% endfor %}
@@ -73,5 +74,32 @@ Register:
         <button class="btn btn-primary"> {% if object %} Update {% else %} Signup {% endif %} </button>
     </div>
 </form>
+
+
+{% block javascript %}
+  <script>
+    $("#userid").change(function () {
+     var username = $(this).val();
+      $.ajax({
+        url: '/validate/',
+        data: {
+          'username': username
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            $("#already").show();
+          }
+          else {
+          $("#already").hide();
+
+          }
+        }
+      });
+    });
+
+  </script>
+{% endblock %}
+
 
 {% endblock %}

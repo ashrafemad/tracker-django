@@ -11,6 +11,8 @@
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+
     <link rel="icon" href="https://png.icons8.com/ios/50/000000/exercise-filled.png" type="image/png">
 
 </head>
@@ -38,14 +40,14 @@
       </li>
         {% endif %}
     </ul>
-
     <span class="navbar-text">
   <ul class="navbar-nav mr-auto">
         <li class="navbar-nav mr-auto">
 
 
         {% if request.user.is_authenticated %}
-            <li class="nav-item"> <a class="nav-link" href="{% url 'logout' %}">{{request.user.username}} - Logout</a> </li>
+             <img src = "{{request.user.profilepic.profile_pic.url}}" class="rounded-circle" width="50px" height="50px">
+ <li class="nav-item"> <a class="nav-link" href="{% url 'logout' %}">{{request.user.username}} - Logout</a> </li>
         {% else %}
             <li class="nav-item"> <a class="nav-link" href="{% url 'login' %}">Login</a> </li>
       <li class="nav-item"> <a class="nav-link" href="{% url 'signup' %}">Signup</a> </li>
@@ -67,7 +69,6 @@
     </div>
     {% endblock %}
 </div>
-
 </body>
 
 </html>

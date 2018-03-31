@@ -12,33 +12,122 @@ New Entry
 {% else %}
 <h1> Add Entry:</h1>
 {% endif %}
-<form method="post">
+<form enctype="multipart/form-data" id="entryform" action="{% if object %} {% url 'update-entry' object.id %} {% else %} {% url 'add' %} {% endif %}" method="post">
     {% csrf_token %}
     {{ form.non_field_errors }}
     <label> <strong> Date: </strong> </label>
-    <input type= "date" class="form-control" name="{{form.date.html_name}}" value="{{form.date.value|date:"Y-m-d"}}">
+    <input required id="entrydate" type= "date" class="form-control" name="{{form.date.html_name}}" value="{{form.date.value|date:"Y-m-d"}}">
     {% for error in form.date.errors %}
     <p class="text-danger"> {{error}} </p>
     {% endfor %}
     <br>
 
     <label> <strong> Distance(Meters): </strong> </label>
-    <input type="number" step="0.1" class="form-control" name="{{form.distance.html_name}}" value="{{form.distance.value}}" >
+    <input required id="entrydistance" type="number" step="0.1" class="form-control" name="{{form.distance.html_name}}" value="{{form.distance.value}}" >
     {% for error in form.distance.errors %}
     <p class="text-danger"> {{error}} </p>
     {% endfor %}
     <br>
 
      <label> <strong> Time(Seconds): </strong> </label>
-    <input type="number" class="form-control" name="{{form.time.html_name}}" value="{{form.time.value}}" >
+    <input required id="entrytime" type="number" class="form-control" name="{{form.time.html_name}}" value="{{form.time.value}}" >
     {% for error in form.time.errors %}
     <p class="text-danger"> {{error}} </p>
     {% endfor %}
     <br>
 
+    <input required id="entryimage" type="file" class="form-control" name="{{form.image.html_name}}" >
+    {% for error in form.image.errors %}
+    <p class="text-danger"> {{error}} </p>
+    {% endfor %}
+    <br>
+    <p id="err" class="text-danger">
+
+    </p>
+    <p id="suc" class="text-success">
+
+    </p>
     <div class="text-center">
-        <button type="submit" class="btn btn-primary"> {% if object %} Update {% else %} Create {% endif %} </button>
+        <button id ="bt" type="submit" class="btn btn-primary">{% if object %}Update{% else %}Create{% endif %}</button>
     </div>
 </form>
+
+
+{% block javascript %}
+  <script>
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue =   decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+    $('#entryform').on('submit', function(event){
+    var fd = new FormData($('#entryform')[0]);
+        var files = $('#entryimage')[0].files[0];
+        fd.append('image',files);
+    event.preventDefault();
+
+    $.ajax({
+        url: $(this).attr("action"),
+        data:fd,
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        success: function(data){
+        console.log(fd);
+        var count = 0;
+        for (var key in data) {
+        count += 1
+    }
+
+    if (count == 1){
+     if ($("#bt").text() == "Update"){
+        $('#suc').text("Successfully Updated");
+    }
+    else{
+    $('#suc').text("Successfully Inserted");
+    $('#entrytime').val("");
+    $('#entrydistance').val("");
+}
+    }
+
+    else {
+    $('#err').text("Error Inserting")
+    }
+        }
+      })
+      ;
+
+      });
+  </script>
+{% endblock %}
+
+
 
 {% endblock %}
