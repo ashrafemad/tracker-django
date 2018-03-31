@@ -87,10 +87,10 @@ WSGI_APPLICATION = 'task.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tracker',
-        'USER': 'ashraf',
-        'PASSWORD': '689602',
-        'HOST': 'localhost',
+        'NAME': 'de4uvc6vi68vtg',
+        'USER': 'mmvsomtiihmilg',
+        'PASSWORD': '8ff294a48a695960eabbd716b46f1ed5c7176abe1394cfdd6eeebb8fe5c91455',
+        'HOST': 'ec2-54-235-109-37.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
