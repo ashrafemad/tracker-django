@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mathfilters',
     'tracker',
+    'rest_framework',
+    'api',
+
 ]
 
 MIDDLEWARE = [
@@ -74,7 +77,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'task.wsgi.application'
 
 
-# Database
+# Database SQLITE
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 # DATABASES = {
@@ -85,7 +88,7 @@ WSGI_APPLICATION = 'task.wsgi.application'
 # }
 
 
-
+# Herokuuuuuuu
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -97,6 +100,17 @@ DATABASES = {
     }
 }
 
+# LOCALLLLL
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'tracker',
+#         'USER': 'ashraf',
+#         'PASSWORD': '689602',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 
 

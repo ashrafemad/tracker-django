@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from tracker.views import Signup, Login, MyEntries, CreateEntry, index, signout, DeleteEntry, UpdateEntry, ListUsers, \
     DeleteUser, UpdateUser, validate_username
 
@@ -35,4 +35,5 @@ urlpatterns = [
     path('users/', ListUsers.as_view(), name='users-list'),
     path('users/<int:pk>/delete', DeleteUser.as_view(), name='delete-user'),
     path('users/<int:pk>/update', UpdateUser.as_view(), name='update-user'),
+    path('api/posts/', include('api.urls'), name='api-posts-list'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
