@@ -9,15 +9,16 @@ class Post(models.Model):
     content = models.CharField(max_length=255, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.date.today())
+    type = models.CharField(max_length=20, choices=(('landcare', 'Landcare'), ('office', 'LLS Office')), null=False, default=('landcare', 'Landcare'))
 
     def __str__(self):
         return "{} - {} ".format(self.pk, self.author)
+
 
 class Comment(models.Model):
     content = models.CharField(max_length=255, null=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.date.today())
-    type = models.CharField(max_length=20, choices=(('landcare', 'Landcare'), ('office', 'LLS Office')), null=False, default=('landcare', 'Landcare'))
 
     def __str__(self):
         return "{} - {} ".format(self.pk, self.post.author)
