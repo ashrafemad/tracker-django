@@ -17,9 +17,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from .views import ApiViewPosts, ApiCreatePost
+from rest_framework_swagger.views import get_swagger_view
 
+from .views import ApiViewPosts, ApiCreatePost
+schema_view = get_swagger_view(title='LandSmart API')
 urlpatterns = [
-    path('', ApiViewPosts.as_view()),
+    path('all', ApiViewPosts.as_view()),
+    path('', schema_view),
     path('create/', ApiCreatePost.as_view()),
+    # path('<int:pk>/', ApiViewPost.as_view()),
+    # path('<int:pk>/delete/', ApiDeletePost.as_view()),
+    # path('<int:pk>/update/', ApiUpdatePost.as_view()),
 ]

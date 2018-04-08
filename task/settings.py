@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'mathfilters',
     'tracker',
     'rest_framework',
+    'rest_framework_swagger',
     'api',
 
 ]
