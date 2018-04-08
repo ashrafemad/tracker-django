@@ -9,7 +9,11 @@ class Post(models.Model):
     content = models.CharField(max_length=255, null=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(default=datetime.date.today())
-    type = models.CharField(max_length=20, choices=(('landcare', 'Landcare'), ('office', 'LLS Office')), null=False, default=('landcare', 'Landcare'))
+    TYPES = (
+        ('landcare', 'Landcare'),
+        ('office', 'LLS Office'),
+    )
+    type = models.CharField(max_length=50, choices=TYPES, null=False, default='landcare')
 
     def __str__(self):
         return "{} - {} ".format(self.pk, self.author)
