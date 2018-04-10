@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'api',
-
+    'location_field.apps.DefaultConfig',
+    'ckeditor',
+    'stdimage',
+    'stdimage_serializer',
 ]
 
 MIDDLEWARE = [
@@ -90,28 +93,28 @@ WSGI_APPLICATION = 'task.wsgi.application'
 
 
 # Herokuuuuuuu
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'de4uvc6vi68vtg',
-        'USER': 'mmvsomtiihmilg',
-        'PASSWORD': '8ff294a48a695960eabbd716b46f1ed5c7176abe1394cfdd6eeebb8fe5c91455',
-        'HOST': 'ec2-54-235-109-37.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
-}
-
-# LOCALLLLL
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'tracker',
-#         'USER': 'ashraf',
-#         'PASSWORD': '689602',
-#         'HOST': 'localhost',
+#         'NAME': 'de4uvc6vi68vtg',
+#         'USER': 'mmvsomtiihmilg',
+#         'PASSWORD': '8ff294a48a695960eabbd716b46f1ed5c7176abe1394cfdd6eeebb8fe5c91455',
+#         'HOST': 'ec2-54-235-109-37.compute-1.amazonaws.com',
 #         'PORT': '5432',
 #     }
 # }
+
+# LOCALLLLL
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tracker',
+        'USER': 'ashraf',
+        'PASSWORD': '689602',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 
 
@@ -167,3 +170,28 @@ EMAIL_PORT=587
 EMAIL_HOST_USER='hesabatyapp@gmail.com'
 EMAIL_HOST_PASSWORD='hes@.ash*(199)$em'
 EMAIL_USE_TLS=True
+
+
+LOCATION_FIELD_PATH = STATIC_URL + 'location_field'
+LOCATION_FIELD = {
+    'map.provider': 'google',
+    'map.zoom': 13,
+
+    'search.provider': 'google',
+    'search.suffix': '',
+
+    # Google
+    'provider.google.api': '//maps.google.com/maps/api/js',
+    'provider.google.api_key': 'AIzaSyAN61WWhcseSfm_nBtMunE-MZunYlgdXAQ',
+    'provider.google.map_type': 'ROADMAP',
+
+
+    # misc
+    'resources.root_path': LOCATION_FIELD_PATH,
+    'resources.media': {
+        'js': [
+           LOCATION_FIELD_PATH + '/js/jquery.livequery.js',
+            LOCATION_FIELD_PATH + '/js/form.js',
+        ],
+    },
+}
